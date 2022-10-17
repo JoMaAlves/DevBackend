@@ -19,20 +19,4 @@ public class GoodValidator {
             throw new InvalidException("Not a valid aliquot received!");
         }
     }
-
-    public void coveredGoodRequiredFieldsValidation(Good good) throws InvalidException {
-        goodRequiredFieldsValidation(good);
-
-        if(good.getName().isBlank() && good.getName().length() <= 40){
-            throw new InvalidException("Not a valid name received!");
-        }
-
-        if(good.getExpectedValue() == null && good.getExpectedValue() > 0){
-            throw new InvalidException("Not a valid expectedValue received!");
-        }
-
-        if(good.getAliquot() == null && (good.getAliquot() >= 0 && good.getAliquot() <= 1)){
-            throw new InvalidException("Not a valid aliquot received!");
-        }
-    }
 }
