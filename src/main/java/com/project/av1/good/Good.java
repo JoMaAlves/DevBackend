@@ -1,23 +1,21 @@
 package com.project.av1.good;
 
-import com.project.av1.good.Good;
+import com.project.av1.coveredGood.CoveredGood;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Good {
-    private @Id @GeneratedValue Long code;
+    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long code;
     private String name;
     private Integer expectedValue;
-    private Integer aliquot;
+    private Double aliquot;
 
-    Good() {
+    public Good() {
     }
 
-    Good(String name, Integer expectedValue, Integer aliquot) {
+    public Good(String name, Integer expectedValue, Double aliquot) {
         this.name = name;
         this.expectedValue = expectedValue;
         this.aliquot = aliquot;
@@ -47,11 +45,11 @@ public class Good {
         this.expectedValue = expectedValue;
     }
 
-    public Integer getAliquot() {
+    public Double getAliquot() {
         return aliquot;
     }
 
-    public void setAliquot(Integer aliquot) {
+    public void setAliquot(Double aliquot) {
         this.aliquot = aliquot;
     }
 

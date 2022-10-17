@@ -1,24 +1,32 @@
 package com.project.av1.insurance;
 
-import java.util.Objects;
+import com.project.av1.coveredGood.CoveredGood;
+import com.project.av1.coveredGood.CoveredGoodRepository;
+import net.minidev.json.annotate.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+import javax.persistence.*;
 
 @Entity
-class Insurance {
+public class Insurance {
 
-    private @Id @GeneratedValue Long policy;
+    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long policy;
     private String cpf;
     private String startDate;
+    @ElementCollection()
+    private List<Long> coveredGoods = new ArrayList<>();
 
-    Insurance() {
+    public Insurance() {
     }
 
-    Insurance(String cpf, String startDate) {
+    public Insurance(String cpf, String startDate, List<Long> coveredGoods ) {
         this.cpf = cpf;
         this.startDate = startDate;
+        this.coveredGoods = coveredGoods;
     }
 
     public Long getPolicy() {
@@ -44,6 +52,19 @@ class Insurance {
     public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
+
+    public List<Long> getCoveredGoods() {
+        return coveredGoods;
+    }
+
+    public void setCoveredGoods(List<Long> coveredGoods) {
+        this.coveredGoods = coveredGoods;
+    }
+
+    public void addCoveredGood(Long code) {
+        this.coveredGoods.add(code);
+    }
+
 
     @Override
     public boolean equals(Object o) {
