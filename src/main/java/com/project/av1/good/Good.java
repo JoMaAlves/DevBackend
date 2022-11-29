@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 public class Good {
-    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long code;
+    private @Id Long code;
     private String name;
     private Integer expectedValue;
     private Double aliquot;
@@ -15,7 +15,8 @@ public class Good {
     public Good() {
     }
 
-    public Good(String name, Integer expectedValue, Double aliquot) {
+    public Good(Long code, String name, Integer expectedValue, Double aliquot) {
+        this.code = code;
         this.name = name;
         this.expectedValue = expectedValue;
         this.aliquot = aliquot;
@@ -71,7 +72,6 @@ public class Good {
 
     @Override
     public String toString() {
-        return "Good{" + "code=" + this.code + ", name='" + this.name + '\'' + ", expectedValue='" + this.expectedValue
-                + '\'' + ", aliquot='" + this.aliquot + '\'' + '}';
+        return "\"" + this.code + "\",\"" + this.name + "\",\"" + this.expectedValue + "\",\"" + this.aliquot + "\"\n";
     }
 }

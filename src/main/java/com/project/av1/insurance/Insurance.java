@@ -4,17 +4,14 @@ import com.project.av1.coveredGood.CoveredGood;
 import com.project.av1.coveredGood.CoveredGoodRepository;
 import net.minidev.json.annotate.JsonIgnore;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.*;
 
 @Entity
 public class Insurance {
 
-    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long policy;
+    private @Id @GeneratedValue(strategy = GenerationType.AUTO) Long policy;
     private String cpf;
     private String startDate;
     @ElementCollection()
@@ -26,12 +23,12 @@ public class Insurance {
     public Insurance(String cpf, String startDate, List<Long> coveredGoods ) {
         this.cpf = cpf;
         this.startDate = startDate;
-        this.coveredGoods = coveredGoods;
     }
 
     public Long getPolicy() {
         return this.policy;
     }
+
 
     public String getCpf() {
         return this.cpf;
@@ -84,7 +81,14 @@ public class Insurance {
 
     @Override
     public String toString() {
-        return "Insurance{" + "policy=" + this.policy + ", cpf='" + this.cpf + '\'' + ", startDate='" + this.startDate
-                + '\'' + '}';
+        String coveredString = "";
+
+        for(Long item : coveredGoods){
+            coveredString +=  item + ",";
+        }
+
+        coveredString = coveredString.substring(0, coveredString.length() - 1);
+
+        return "\"" + this.policy + "\",\"" + this.cpf + "\",\"" + this.startDate + "\",\"" + coveredString + "\"\n";
     }
 }

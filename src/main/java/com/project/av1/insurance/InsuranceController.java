@@ -1,9 +1,11 @@
 package com.project.av1.insurance;
 
 import com.project.av1.InvalidException;
+import com.project.av1.av2.TxtBuilder;
 import com.project.av1.coveredGood.CoveredGood;
 import com.project.av1.coveredGood.CoveredGoodNotFoundException;
 import com.project.av1.coveredGood.CoveredGoodRepository;
+import com.project.av1.good.GoodRepository;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -27,15 +29,19 @@ class InsuranceController {
 
     private final InsuranceRepository insuranceRepository;
     private final CoveredGoodRepository coveredGoodRepository;
+    private final GoodRepository goodRepository;
 
     private final InsuranceValidator validator = new InsuranceValidator();
     private final InsuranceModelAssembler assembler;
 
-    InsuranceController(InsuranceRepository insuranceRepository, InsuranceModelAssembler assembler, CoveredGoodRepository coveredGoodRepository) {
+    private static final TxtBuilder txtBuilder = new TxtBuilder();
+
+    InsuranceController(InsuranceRepository insuranceRepository, InsuranceModelAssembler assembler, CoveredGoodRepository coveredGoodRepository, GoodRepository goodRepository) {
 
         this.insuranceRepository = insuranceRepository;
         this.assembler = assembler;
         this.coveredGoodRepository = coveredGoodRepository;
+        this.goodRepository = goodRepository;
     }
 
     @GetMapping("/insurances")
@@ -172,5 +178,11 @@ class InsuranceController {
                             .withTitle("Method not allowed") //
                             .withDetail("Insurance Not found"));
         }
+    }
+    @RequestMapping("/printTxt")
+    ResponseEntity<?> PrintTxt() {
+        txtBuilder.buildTxt(goodRepository.findAll(), insuranceRepository.findAll(), coveredGoodRepository.findAll());
+
+        return ResponseEntity.ok().build();
     }
 }

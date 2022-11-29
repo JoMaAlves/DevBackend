@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app>
+    <insurance>
+        <cpf>45442634093</cpf>
+        <startDate>2020-06-05</startDate>
+        <coveredGoods>
+            <coveredGood>
+                <good code="1">
+                    <name>Casa</name>
+                    <expectedValue>250000</expectedValue>
+                    <aliquot>0.5</aliquot>
+                </good>
+                <deadline>2</deadline>
+                <riskFactor>2</riskFactor>
+            </coveredGood>
+            <coveredGood>
+                <good code="2">
+                    <name>Carro</name>
+                    <expectedValue>50000</expectedValue>
+                    <aliquot>0.3</aliquot>
+                </good>
+                <deadline>5</deadline>
+            </coveredGood>
+        </coveredGoods>
+    </insurance>
+    <insurance>
+        <cpf>24869700026</cpf>
+        <startDate>2021-09-25</startDate>
+        <coveredGoods>
+            <coveredGood>
+                <good code="23">
+                    <name>Relogio</name>
+                    <expectedValue>3000</expectedValue>
+                    <aliquot>0.2</aliquot>
+                </good>
+                <deadline>2</deadline>
+                <riskFactor>1</riskFactor>
+            </coveredGood>
+            <coveredGood>
+                <good code="45">
+                    <name>Caixa</name>
+                    <expectedValue>444</expectedValue>
+                    <aliquot>0.2</aliquot>
+                </good>
+                <deadline>2</deadline>
+                <riskFactor>1</riskFactor>
+            </coveredGood>
+            <coveredGood>
+                <good code="33">
+                    <name>joma</name>
+                    <expectedValue>33</expectedValue>
+                    <aliquot>0.2</aliquot>
+                </good>
+                <deadline>2</deadline>
+                <riskFactor>1</riskFactor>
+            </coveredGood>
+        </coveredGoods>
+    </insurance>
+</app>

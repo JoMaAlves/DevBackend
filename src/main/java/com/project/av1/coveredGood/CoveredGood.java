@@ -14,7 +14,7 @@ public class CoveredGood {
 
     private Double totalValue;
 
-    CoveredGood() {
+    public CoveredGood() {
     }
 
     public CoveredGood(Long goodCode, Integer deadline) {
@@ -59,4 +59,11 @@ public class CoveredGood {
     public void setTotalValue(Double totalValue) {
         this.totalValue = totalValue;
     }
+
+    @Override
+    public String toString() {
+        return "\"" + this.goodCode + "\",\"" + this.deadline + "\",\"" + this.riskFactor + "\",\"" + this.totalValue + "\"\n";
+    }
+
+
 }

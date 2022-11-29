@@ -1,5 +1,7 @@
 package com.project.av1;
 
+import com.project.av1.av2.MapObjectsHandlerSax;
+import com.project.av1.av2.TxtBuilder;
 import com.project.av1.coveredGood.CoveredGood;
 import com.project.av1.coveredGood.CoveredGoodRepository;
 import com.project.av1.good.Good;
@@ -11,44 +13,67 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
 class LoadDatabase {
-
     private static final Logger log = LoggerFactory.getLogger(LoadDatabase.class);
+    private static final String FILENAME = "src/main/resources/insurances.xml";
 
     @Bean
     CommandLineRunner initDatabase(InsuranceRepository insuranceRepository, GoodRepository goodRepository, CoveredGoodRepository coveredGoodRepository) {
-
         List<Good> goods = new ArrayList<>();
         List<Insurance> insurances = new ArrayList<>();
         List<CoveredGood> coveredGoods = new ArrayList<>();
 
-        goods.add(new Good("Corsa 2010", 10000, 0.5));
-        goods.add(new Good("RTX4090", 14000, 0.2));
-        goods.add(new Good("Oculus Rift", 5000, 0.8));
+        SAXParserFactory factory = SAXParserFactory.newInstance();
 
-        coveredGoods.add(new CoveredGood(1L, 2, 2));
-        coveredGoods.add(new CoveredGood(2L, 3));
-        coveredGoods.add(new CoveredGood(3L, 4));
+        try {
 
-        insurances.add(new Insurance("726.481.570-69", "2020-06-05", List.of(1L,2L)));
-        insurances.add(new Insurance("566.506.260-07", "2022-08-17", List.of(3L)));
+            SAXParser saxParser = factory.newSAXParser();
+
+            MapObjectsHandlerSax handler = new MapObjectsHandlerSax();
+
+            saxParser.parse(FILENAME, handler);
+            log.info("XML File Found, deleting database and using its content");
+
+            goods = handler.getGoods();
+            insurances = handler.getInsurances();
+            coveredGoods = handler.getCoveredGoods();
+
+            goodRepository.deleteAll();
+            coveredGoodRepository.deleteAll();
+            insuranceRepository.deleteAll();
+
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            log.info("No XML File Found, using stored information");
+        }
+
+        for (Good good: goods) {
+            goodRepository.save(good);
+        }
+
+        for (CoveredGood coveredGood: coveredGoods) {
+            coveredGoodRepository.save(coveredGood);
+        }
+
+        for (Insurance insurance: insurances) {
+            insuranceRepository.save(insurance);
+        }
 
         return args -> {
-            log.info("Preloading " + goodRepository.save(goods.get(0)));
-            log.info("Preloading " + goodRepository.save(goods.get(1)));
-            log.info("Preloading " + goodRepository.save(goods.get(2)));
-
-            log.info("Preloading " + insuranceRepository.save(insurances.get(0)));
-            log.info("Preloading " + insuranceRepository.save(insurances.get(1)));
-
-            log.info("Preloading " + coveredGoodRepository.save(coveredGoods.get(0)));
-            log.info("Preloading " + coveredGoodRepository.save(coveredGoods.get(1)));
-            log.info("Preloading " + coveredGoodRepository.save(coveredGoods.get(2)));
+            log.info("Loaded Database");
         };
     }
+
+
 }

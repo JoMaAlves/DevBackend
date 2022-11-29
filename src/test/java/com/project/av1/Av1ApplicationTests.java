@@ -115,7 +115,7 @@ class Av1ApplicationTests {
 
 	@Test
 	void ValidaBemNomeMaior(){
-		Good n = new Good("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 2000, 0.8);
+		Good n = new Good(12L,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 2000, 0.8);
 		GoodValidator validator = new GoodValidator();
 
 		boolean failed = false;
@@ -130,7 +130,7 @@ class Av1ApplicationTests {
 
 	@Test
 	void ValidaBemNomeVazio(){
-		Good n = new Good("", 2000, 0.8);
+		Good n = new Good(12L,"", 2000, 0.8);
 		GoodValidator validator = new GoodValidator();
 
 		boolean failed = false;
@@ -145,7 +145,7 @@ class Av1ApplicationTests {
 
 	@Test
 	void ValidaAliquotaMaiorQueUm(){
-		Good n = new Good("PC", 2000, 2.5);
+		Good n = new Good(12L,"PC", 2000, 2.5);
 		GoodValidator validator = new GoodValidator();
 
 		boolean failed = false;
@@ -160,7 +160,7 @@ class Av1ApplicationTests {
 
 	@Test
 	void ValidaAliquotaMenorQueZero(){
-		Good n = new Good("PC", 2000, -1.5);
+		Good n = new Good(12L,"PC", 2000, -1.5);
 		GoodValidator validator = new GoodValidator();
 
 		boolean failed = false;
@@ -173,5 +173,33 @@ class Av1ApplicationTests {
 		Assertions.assertTrue(failed);
 	}
 
+	@Test
+	void ValidaValorInexistente(){
+		Good n = new Good(12L,"PC", null , 0.6);
+		GoodValidator validator = new GoodValidator();
 
+		boolean failed = false;
+		try {
+			validator.goodRequiredFieldsValidation(n);
+		} catch (InvalidException e) {
+			failed = true;
+		}
+
+		Assertions.assertTrue(failed);
+	}
+
+	@Test
+	void ValidaAliquotaInexistente(){
+		Good n = new Good(12L,"PC", 1200 , null);
+		GoodValidator validator = new GoodValidator();
+
+		boolean failed = false;
+		try {
+			validator.goodRequiredFieldsValidation(n);
+		} catch (InvalidException e) {
+			failed = true;
+		}
+
+		Assertions.assertTrue(failed);
+	}
 }
